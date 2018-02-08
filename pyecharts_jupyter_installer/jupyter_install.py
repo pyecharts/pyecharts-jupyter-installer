@@ -5,8 +5,6 @@ import warnings
 
 from setuptools.command.install import install
 
-import pyecharts.exceptions as exceptions
-
 REGISTRY_FILE = 'registry.json'
 JUPYTER_ENTRY = 'JUPYTER_ENTRY'
 REGISTRY_KEYS = [
@@ -32,12 +30,16 @@ def install_cmd_for(package_name, package_path):
     return dict(install=InstallCommand)
 
 
+class InvalidRegistry(Exception):
+    pass
+
+
 def _install(package_name, package_path):
     try:
         __registry__ = _load_registry_json(
             os.path.join(package_path, REGISTRY_FILE))
         _validate_registry(__registry__)
-    except exceptions.InvalidRegistry as e:
+    except InvalidRegistry as e:
         print(e)
     _jupyter_install(package_name,
                      __registry__[JUPYTER_ENTRY],
@@ -68,8 +70,7 @@ def _load_registry_json(file_path):
 def _validate_registry(registry):
     for key in REGISTRY_KEYS:
         if key not in registry:
-            raise exceptions.InvalidRegistry(
-                "%s is missing" % key)
+            raise InvalidRegistry("%s is missing" % key)
 
 
 def __get_jupyter_note_utils():
