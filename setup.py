@@ -16,7 +16,7 @@ LICENSE = 'MIT'
 DESCRIPTION = (
     'Install pyecharts extensions into jupyter'
 )
-URL = 'https://github.com/chfw/pyecharts-jupyter-installer'
+URL = 'https://github.com/pyecharts/pyecharts-jupyter-installer'
 DOWNLOAD_URL = '%s/archive/0.0.1.tar.gz' % URL
 FILES = ['README.rst',  'CHANGELOG.rst']
 KEYWORDS = [
