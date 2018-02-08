@@ -16,6 +16,15 @@ Installation
 ================================================================================
 
 
+You can install pyecharts-jupyter-installer via pip:
+
+.. code-block:: bash
+
+    $ pip install pyecharts-jupyter-installer
+
+
+or clone it and install it:
+
 .. code-block:: bash
 
     $ git clone https://github.com/chfw/pyecharts-jupyter-installer.git
