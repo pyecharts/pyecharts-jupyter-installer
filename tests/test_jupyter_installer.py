@@ -1,7 +1,16 @@
+import os
+import sys
 from mock import patch, MagicMock
-from nose.tools import raises
+from nose.tools import raises, eq_
 
 from pyecharts_jupyter_installer.jupyter_install import InvalidRegistry
+
+PY2 = sys.version_info[0] == 2
+
+if PY2:
+    from StringIO import StringIO
+else:
+    from io import StringIO
 
 
 @patch('pyecharts_jupyter_installer.jupyter_install._install')
@@ -47,3 +56,29 @@ def test_validate_registry():
         'FILE_MAP': None
     }
     _validate_registry(__test_registry__)
+
+
+def test_load_registry_json():
+    import pyecharts_jupyter_installer.jupyter_install as test
+    content = test._load_registry_json(os.path.join(
+        "tests", "fixtures", "fake_registry.json"))
+    eq_(content, {"test": "ok"})
+
+
+@patch('pyecharts_jupyter_installer.jupyter_install._load_registry_json')
+@patch('pyecharts_jupyter_installer.jupyter_install._validate_registry')
+@patch('pyecharts_jupyter_installer.jupyter_install._jupyter_install')
+def test_install_function(fake_a, fake_b, fake_c):
+    import pyecharts_jupyter_installer.jupyter_install as test
+    test._install('test', 'is mocked')
+    fake_c.assert_called()
+
+
+@patch('sys.stdout', new_callable=StringIO)
+@patch('pyecharts_jupyter_installer.jupyter_install._load_registry_json')
+@patch('pyecharts_jupyter_installer.jupyter_install._validate_registry')
+def test_install_function_failed(fake_validate_registry, fake_b, stdout):
+    fake_validate_registry.side_effect = InvalidRegistry
+    import pyecharts_jupyter_installer.jupyter_install as test
+    test._install('test', 'is mocked')
+    assert "Invalid registry:" in stdout.getvalue()
