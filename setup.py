@@ -4,20 +4,19 @@ import sys
 import codecs
 from shutil import rmtree
 from setuptools import setup, find_packages, Command
-from platform import python_implementation
 PY2 = sys.version_info[0] == 2
 PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyecharts-jupyter-installer'
 AUTHOR = 'C.W.'
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'MIT'
 DESCRIPTION = (
     'Install pyecharts extensions into jupyter'
 )
 URL = 'https://github.com/pyecharts/pyecharts-jupyter-installer'
-DOWNLOAD_URL = '%s/archive/0.0.1.tar.gz' % URL
+DOWNLOAD_URL = '%s/archive/0.0.2.tar.gz' % URL
 FILES = ['README.rst',  'CHANGELOG.rst']
 KEYWORDS = [
     'python'
@@ -39,6 +38,7 @@ CLASSIFIERS = [
 
 INSTALL_REQUIRES = [
 ]
+SETUP_COMMANDS = {}
 
 
 PACKAGES = find_packages(exclude=['ez_setup', 'examples', 'tests'])
@@ -46,8 +46,8 @@ EXTRAS_REQUIRE = {}
 # You do not need to read beyond this line
 PUBLISH_COMMAND = '{0} setup.py sdist bdist_wheel upload -r pypi'.format(
     sys.executable)
-GS_COMMAND = ('gs pyecharts-jupyter-installer v0.0.1 ' +
-              "Find 0.0.1 in changelog for more details")
+GS_COMMAND = ('gs pyecharts-jupyter-installer v0.0.2 ' +
+              "Find 0.0.2 in changelog for more details")
 NO_GS_MESSAGE = ('Automatic github release is disabled. ' +
                  'Please install gease to enable it.')
 UPLOAD_FAILED_MSG = (
@@ -90,6 +90,11 @@ class PublishCommand(Command):
                 self.status(UPLOAD_FAILED_MSG % PUBLISH_COMMAND)
 
         sys.exit()
+
+
+SETUP_COMMANDS.update({
+    'publish': PublishCommand,
+})
 
 
 def has_gease():
@@ -165,7 +170,5 @@ if __name__ == '__main__':
         include_package_data=True,
         zip_safe=False,
         classifiers=CLASSIFIERS,
-        cmdclass={
-            'publish': PublishCommand,
-        }
+        cmdclass=SETUP_COMMANDS
     )

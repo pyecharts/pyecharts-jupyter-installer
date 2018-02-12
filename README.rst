@@ -8,8 +8,6 @@ pyecharts-jupyter-installer
 .. image:: https://codecov.io/gh/pyecharts/pyecharts-jupyter-installer/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pyecharts/pyecharts-jupyter-installer
 
-.. image:: https://readthedocs.org/projects/pyecharts-jupyter-installer/badge/?version=latest
-   :target: http://pyecharts-jupyter-installer.readthedocs.org/en/latest/
 
 
 Installation

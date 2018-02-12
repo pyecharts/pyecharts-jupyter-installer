@@ -1,0 +1,9 @@
+name: pyecharts-cli
+organisation: pyecharts
+releases:
+- changes:
+  - action: Updated
+    details:
+    - Well tested working version
+  date: 12/02/2018
+  version: 0.0.2
