@@ -37,7 +37,7 @@ class InvalidRegistry(Exception):
 def _install(package_name, package_path):
     try:
         __registry__ = _load_registry_json(
-            os.path.join(package_path, REGISTRY_FILE))
+            os.path.join(package_path, '..', REGISTRY_FILE))
         _validate_registry(__registry__)
         _jupyter_install(package_name,
                          __registry__[JUPYTER_ENTRY],
